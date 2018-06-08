@@ -19,3 +19,7 @@ script:
 after_script:
   - travis_retry php vendor/bin/php-coveralls -v
   - ./vendor/bin/test-reporter
+
+notifications:
+  email:
+    - vvthanatos@gmail.com

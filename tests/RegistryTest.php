@@ -21,7 +21,7 @@ class RegistryTest extends TestCase
     }
 
     /**
-     * @covers Registry::getInstance()
+     * @covers \HalimonAlexander\Registry\Registry::getInstance()
      */
     public function testInstance()
     {
@@ -29,7 +29,7 @@ class RegistryTest extends TestCase
     }
 
     /**
-     * @covers Registry::get()
+     * @covers \HalimonAlexander\Registry\Registry::get()
      */
     public function testGetEmptyKey()
     {
@@ -38,7 +38,7 @@ class RegistryTest extends TestCase
     }
 
     /**
-     * @covers Registry::has()
+     * @covers \HalimonAlexander\Registry\Registry::has()
      */
     public function testHasEmptyKey()
     {
@@ -47,7 +47,7 @@ class RegistryTest extends TestCase
     }
 
     /**
-     * @covers Registry::set()
+     * @covers \HalimonAlexander\Registry\Registry::set()
      */
     public function testSetEmptyKey()
     {
@@ -56,7 +56,7 @@ class RegistryTest extends TestCase
     }
 
     /**
-     * @covers Registry::get()
+     * @covers \HalimonAlexander\Registry\Registry::get()
      */
     public function testGet()
     {
@@ -66,7 +66,7 @@ class RegistryTest extends TestCase
     }
 
     /**
-     * @covers Registry::has()
+     * @covers \HalimonAlexander\Registry\Registry::has()
      */
     public function testHas()
     {
@@ -77,7 +77,7 @@ class RegistryTest extends TestCase
     }
 
     /**
-     * @covers Registry::set()
+     * @covers \HalimonAlexander\Registry\Registry::set()
      */
     public function testSet()
     {
