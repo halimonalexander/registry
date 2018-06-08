@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace HalimonAlexander\Registry;
 
+use InvalidArgumentException;
+
 interface IRegistry
 {
     /**
@@ -24,7 +26,9 @@ interface IRegistry
      * Get the registered value. If it does not exists, provided default value will be returned.
      *
      * @param string $key
-     * @param null $default
+     * @param mixed|null $default
+     *
+     * @throws InvalidArgumentException
      *
      * @return mixed|null
      */
@@ -35,16 +39,19 @@ interface IRegistry
      *
      * @param string $key
      *
+     * @throws InvalidArgumentException
+     *
      * @return bool
      */
     public function has(string $key): bool;
-
 
     /**
      * Set the new value.
      *
      * @param string $key
-     * @param $value
+     * @param mixed $value
+     *
+     * @throws InvalidArgumentException
      *
      * @return IRegistry
      */

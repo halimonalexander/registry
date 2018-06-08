@@ -11,10 +11,17 @@ declare(strict_types=1);
 
 namespace HalimonAlexander\Registry;
 
+use InvalidArgumentException;
+
+/**
+ * Class Registry
+ *
+ * @package HalimonAlexander\Registry
+ */
 class Registry implements IRegistry
 {
     /**
-     * @var IRegistry
+     * @var IRegistry Class instance
      */
     private static $instance;
 
@@ -36,6 +43,10 @@ class Registry implements IRegistry
      */
     public function get(string $key, $default = null)
     {
+        if (empty($key)) {
+            throw new InvalidArgumentException('Key argument cannot be empty');
+        }
+
         if (!$this->has($key)) {
             return $default;
         }
@@ -48,6 +59,10 @@ class Registry implements IRegistry
      */
     public function has(string $key): bool
     {
+        if (empty($key)) {
+            throw new InvalidArgumentException('Key argument cannot be empty');
+        }
+
         return array_key_exists($key, $this->container);
     }
 
@@ -56,6 +71,10 @@ class Registry implements IRegistry
      */
     public function set(string $key, $value): IRegistry
     {
+        if (empty($key)) {
+            throw new InvalidArgumentException('Key argument cannot be empty');
+        }
+
         $this->container[$key] = $value;
 
         return $this;

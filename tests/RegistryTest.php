@@ -1,4 +1,5 @@
 <?php
+
 namespace HalimonAlexander\Registry\Test;
 
 use HalimonAlexander\Registry\IRegistry;
@@ -14,16 +15,59 @@ class RegistryTest extends TestCase
     {
         $this->registry =
             (new Registry())
-            ->set('a', 1)
-            ->set('b', 2)
-            ->set('c', ["1" => "a"]);
+                ->set('a', 1)
+                ->set('b', 2)
+                ->set('c', ["1" => "a"]);
     }
 
-    public function testInstanse()
+    /**
+     * @covers Registry::getInstance()
+     */
+    public function testInstance()
     {
         $this->assertInstanceOf(IRegistry::class, $this->registry);
     }
 
+    /**
+     * @covers Registry::get()
+     */
+    public function testGetEmptyKey()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->registry->get('');
+    }
+
+    /**
+     * @covers Registry::has()
+     */
+    public function testHasEmptyKey()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->registry->has('');
+    }
+
+    /**
+     * @covers Registry::set()
+     */
+    public function testSetEmptyKey()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->registry->set('', 123);
+    }
+
+    /**
+     * @covers Registry::get()
+     */
+    public function testGet()
+    {
+        $this->assertEquals(1, $this->registry->get('a'));
+        $this->assertEquals(["1" => "a"], $this->registry->get('c'));
+        $this->assertEquals('abc', $this->registry->get('na-key', 'abc'));
+    }
+
+    /**
+     * @covers Registry::has()
+     */
     public function testHas()
     {
         $this->assertTrue($this->registry->has('a'));
@@ -32,13 +76,9 @@ class RegistryTest extends TestCase
         $this->assertFalse($this->registry->has('123'));
     }
 
-    public function testGet()
-    {
-        $this->assertEquals(1, $this->registry->get('a'));
-        $this->assertEquals(["1" => "a"], $this->registry->get('c'));
-        $this->assertEquals('abc', $this->registry->get('na-key', 'abc'));
-    }
-
+    /**
+     * @covers Registry::set()
+     */
     public function testSet()
     {
         $this->assertFalse($this->registry->has("abcd"));
