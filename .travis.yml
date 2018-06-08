@@ -5,7 +5,7 @@ php:
 
 addons:
   code_climate:
-    repo_token: efcc68a40e09df65d5baede58656b2e6e66effe8
+    repo_token: 2a7b11d0f28b7859b139111f4fc6bcd141d1b1fdfec5e08cade71225f4680608
 
 install:
   - composer install
