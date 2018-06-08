@@ -1,6 +1,7 @@
 <?php
 namespace HalimonAlexander\Registry\Test;
 
+use HalimonAlexander\Registry\IRegistry;
 use HalimonAlexander\Registry\Registry;
 use PHPUnit\Framework\TestCase;
 
@@ -16,6 +17,11 @@ class RegistryTest extends TestCase
             ->set('a', 1)
             ->set('b', 2)
             ->set('c', ["1" => "a"]);
+    }
+
+    public function testInstanse()
+    {
+        $this->assertInstanceOf(IRegistry::class, $this->registry);
     }
 
     public function testHas()
