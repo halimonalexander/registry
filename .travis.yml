@@ -1,0 +1,21 @@
+language: php
+
+php:
+  - 7.2
+
+addons:
+  code_climate:
+    repo_token: efcc68a40e09df65d5baede58656b2e6e66effe8
+
+install:
+  - composer install
+
+before_script:
+  - composer install --dev --no-interaction
+
+script:
+  - phpunit --configuration phpunit.xml
+
+after_script:
+  - travis_retry php vendor/bin/php-coveralls -v
+  - ./vendor/bin/test-reporter
