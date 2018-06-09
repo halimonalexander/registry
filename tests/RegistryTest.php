@@ -14,7 +14,7 @@ class RegistryTest extends TestCase
     public function setUp()
     {
         $this->registry =
-            (new Registry())
+            (Registry::getInstance())
                 ->set('a', 1)
                 ->set('b', 2)
                 ->set('c', ["1" => "a"]);
@@ -63,6 +63,17 @@ class RegistryTest extends TestCase
         $this->assertEquals(1, $this->registry->get('a'));
         $this->assertEquals(["1" => "a"], $this->registry->get('c'));
         $this->assertEquals('abc', $this->registry->get('na-key', 'abc'));
+    }
+
+    /**
+     * @covers \HalimonAlexander\Registry\Registry::getByClassname()
+     */
+    public function testGetByClassname()
+    {
+        $this->assertNull($this->registry->getByClassname('RuntimeException'));
+
+        $this->registry->set('error', new \RuntimeException());
+        $this->assertInstanceOf(\RuntimeException::class, $this->registry->getByClassname('RuntimeException'));
     }
 
     /**

@@ -30,6 +30,10 @@ class Registry implements IRegistry
      */
     private $container = [];
 
+    private function __construct()
+    {
+    }
+
     /**
      * @inheritdoc
      */
@@ -52,6 +56,24 @@ class Registry implements IRegistry
         }
 
         return $this->container[$key];
+    }
+
+    /**
+     * Get registered value by class name. If not found, will return null.
+     *
+     * @param string $classname
+     *
+     * @return mixed|null
+     */
+    public function getByClassname(string $classname)
+    {
+        foreach ($this->container as $value) {
+            if (is_object($value) && $value instanceof $classname) {
+                return $value;
+            }
+        }
+
+        return null;
     }
 
     /**
