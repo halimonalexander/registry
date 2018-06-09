@@ -18,10 +18,10 @@ use InvalidArgumentException;
  *
  * @package HalimonAlexander\Registry
  */
-class Registry implements IRegistry
+class Registry implements RegistryInterface
 {
     /**
-     * @var IRegistry Class instance
+     * @var RegistryInterface Class instance
      */
     private static $instance;
 
@@ -37,7 +37,7 @@ class Registry implements IRegistry
     /**
      * @inheritdoc
      */
-    public static function getInstance(): IRegistry
+    public static function getInstance(): RegistryInterface
     {
         return self::$instance ?? self::$instance = new self();
     }
@@ -91,7 +91,7 @@ class Registry implements IRegistry
     /**
      * @inheritdoc
      */
-    public function set(string $key, $value): IRegistry
+    public function set(string $key, $value): RegistryInterface
     {
         if (empty($key)) {
             throw new InvalidArgumentException('Key argument cannot be empty');

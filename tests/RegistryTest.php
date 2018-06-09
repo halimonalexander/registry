@@ -2,7 +2,7 @@
 
 namespace HalimonAlexander\Registry\Test;
 
-use HalimonAlexander\Registry\IRegistry;
+use HalimonAlexander\Registry\RegistryInterface;
 use HalimonAlexander\Registry\Registry;
 use PHPUnit\Framework\TestCase;
 
@@ -25,7 +25,7 @@ class RegistryTest extends TestCase
      */
     public function testInstance()
     {
-        $this->assertInstanceOf(IRegistry::class, $this->registry);
+        $this->assertInstanceOf(RegistryInterface::class, $this->registry);
     }
 
     /**

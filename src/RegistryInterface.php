@@ -13,14 +13,14 @@ namespace HalimonAlexander\Registry;
 
 use InvalidArgumentException;
 
-interface IRegistry
+interface RegistryInterface
 {
     /**
      * Get register instance
      *
-     * @return IRegistry
+     * @return RegistryInterface
      */
-    public static function getInstance(): IRegistry;
+    public static function getInstance(): RegistryInterface;
 
     /**
      * Get the registered value. If it does not exists, provided default value will be returned.
@@ -53,7 +53,7 @@ interface IRegistry
      *
      * @throws InvalidArgumentException
      *
-     * @return IRegistry
+     * @return RegistryInterface
      */
-    public function set(string $key, $value): IRegistry;
+    public function set(string $key, $value): RegistryInterface;
 }
