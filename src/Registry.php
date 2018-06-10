@@ -21,7 +21,7 @@ use InvalidArgumentException;
 class Registry implements RegistryInterface
 {
     /**
-     * @var RegistryInterface Class instance
+     * @var Registry Class instance
      */
     private static $instance;
 
@@ -37,7 +37,7 @@ class Registry implements RegistryInterface
     /**
      * @inheritdoc
      */
-    public static function getInstance(): RegistryInterface
+    public static function getInstance(): Registry
     {
         return self::$instance ?? self::$instance = new self();
     }

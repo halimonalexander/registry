@@ -20,7 +20,7 @@ interface RegistryInterface
      *
      * @return RegistryInterface
      */
-    public static function getInstance(): RegistryInterface;
+    public static function getInstance();
 
     /**
      * Get the registered value. If it does not exists, provided default value will be returned.
