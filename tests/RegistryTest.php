@@ -11,7 +11,7 @@ class RegistryTest extends TestCase
     /** @var Registry */
     private $registry;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->registry =
             (Registry::getInstance())
