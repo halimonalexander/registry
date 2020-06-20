@@ -30,14 +30,14 @@ class Registry implements RegistryInterface
      */
     private $container = [];
 
-    private function __construct()
+    final private function __construct()
     {
     }
 
     /**
      * @inheritdoc
      */
-    public static function getInstance(): Registry
+    final public static function getInstance(): self
     {
         return self::$instance ?? self::$instance = new self();
     }
@@ -45,7 +45,7 @@ class Registry implements RegistryInterface
     /**
      * @inheritdoc
      */
-    public function get(string $key, $default = null)
+    final public function get(string $key, $default = null)
     {
         if (empty($key)) {
             throw new InvalidArgumentException('Key argument cannot be empty');
@@ -65,7 +65,7 @@ class Registry implements RegistryInterface
      *
      * @return mixed|null
      */
-    public function getByClassname(string $classname)
+    final public function getByClassname(string $classname)
     {
         foreach ($this->container as $value) {
             if (is_object($value) && $value instanceof $classname) {
@@ -79,7 +79,7 @@ class Registry implements RegistryInterface
     /**
      * @inheritdoc
      */
-    public function has(string $key): bool
+    final public function has(string $key): bool
     {
         if (empty($key)) {
             throw new InvalidArgumentException('Key argument cannot be empty');
@@ -91,7 +91,7 @@ class Registry implements RegistryInterface
     /**
      * @inheritdoc
      */
-    public function set(string $key, $value): RegistryInterface
+    final public function set(string $key, $value): RegistryInterface
     {
         if (empty($key)) {
             throw new InvalidArgumentException('Key argument cannot be empty');
@@ -100,5 +100,17 @@ class Registry implements RegistryInterface
         $this->container[$key] = $value;
 
         return $this;
+    }
+    
+    /**
+     * Sets the entire container.
+     *
+     * @param array $container
+     *
+     * @return void
+     */
+    final public function setContainer(array $container): void
+    {
+        $this->container = $container;
     }
 }
