@@ -39,7 +39,7 @@ class Registry implements RegistryInterface
      */
     final public static function getInstance(): self
     {
-        return self::$instance ?? self::$instance = new self();
+        return self::$instance ?? self::$instance = new static();
     }
 
     /**
