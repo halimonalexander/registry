@@ -59,21 +59,42 @@ class Registry implements RegistryInterface
     }
 
     /**
-     * Get registered value by class name. If not found, will return null.
-     *
-     * @param string $classname
-     *
-     * @return mixed|null
+     * @inheritdoc
      */
-    final public function getByClassname(string $classname)
+    final public function getByClassname(string $classname, bool $strict = true)
     {
+        if (!$this->isValidClassname($classname, $strict)) {
+            throw new InvalidArgumentException(
+                sprintf('Provided classname `%s` is a not valid class', $classname)
+            );
+        }
+
         foreach ($this->container as $value) {
-            if (is_object($value) && $value instanceof $classname) {
+            if (is_object($value) && get_class($value) === $classname) {
                 return $value;
             }
         }
 
+        if (!$strict) {
+            foreach ($this->container as $value) {
+                if (is_object($value) && $value instanceof $classname) {
+                    return $value;
+                }
+            }
+        }
+
         return null;
+    }
+
+    private function isValidClassname(string $classname, bool $strict): bool
+    {
+        if ($strict && class_exists($classname)) {
+            return true;
+        } elseif (!$strict && (class_exists($classname) || interface_exists($classname))) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -103,11 +124,7 @@ class Registry implements RegistryInterface
     }
     
     /**
-     * Sets the entire container.
-     *
-     * @param array $container
-     *
-     * @return void
+     * @inheritdoc
      */
     final public function setContainer(array $container): void
     {

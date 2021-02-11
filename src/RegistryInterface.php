@@ -20,7 +20,7 @@ interface RegistryInterface
      *
      * @return RegistryInterface
      */
-    public static function getInstance();
+    public static function getInstance(): RegistryInterface;
 
     /**
      * Get the registered value. If it does not exists, provided default value will be returned.
@@ -33,6 +33,20 @@ interface RegistryInterface
      * @return mixed|null
      */
     public function get(string $key, $default = null);
+
+    /**
+     * Get registered value by class name.
+     * If strict is false, can search by parent or interface.
+     * If not found, will return null.
+     *
+     * @param string $classname
+     * @param bool $strict
+     *
+     * @return mixed|null
+     *
+     * @throws InvalidArgumentException
+     */
+    public function getByClassname(string $classname, bool $strict = true);
 
     /**
      * Check if value with provided key is already registered.
@@ -56,4 +70,13 @@ interface RegistryInterface
      * @return RegistryInterface
      */
     public function set(string $key, $value): RegistryInterface;
+
+    /**
+     * Sets the entire container.
+     *
+     * @param array $container
+     *
+     * @return void
+     */
+    public function setContainer(array $container): void;
 }

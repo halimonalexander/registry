@@ -1,11 +1,14 @@
 <?php
 
-namespace HalimonAlexander\Registry\Test;
+namespace HalimonAlexander\Tests\Registry;
 
 use HalimonAlexander\Registry\RegistryInterface;
 use HalimonAlexander\Registry\Registry;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @coversDefaultClass \HalimonAlexander\Registry\Registry
+ */
 class RegistryTest extends TestCase
 {
     /** @var Registry */
@@ -20,66 +23,108 @@ class RegistryTest extends TestCase
                 ->set('c', ["1" => "a"]);
     }
 
-    /**
-     * @covers \HalimonAlexander\Registry\Registry::getInstance()
-     */
-    public function testInstance()
+    public function tearDown()
     {
-        $this->assertInstanceOf(RegistryInterface::class, $this->registry);
+        $this->registry->setContainer([]);
+    }
+
+    public function testRestrictDirectCreate()
+    {
+        $this->expectException(\Throwable::class);
+
+        $registry = new Registry();
     }
 
     /**
-     * @covers \HalimonAlexander\Registry\Registry::get()
+     * @covers ::getInstance
      */
-    public function testGetEmptyKey()
+    public function testInstance(): void
+    {
+        $this->assertInstanceOf(RegistryInterface::class, Registry::getInstance());
+    }
+
+    /**
+     * @covers ::get
+     */
+    public function testGetEmptyKey(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->registry->get('');
     }
 
     /**
-     * @covers \HalimonAlexander\Registry\Registry::has()
+     * @covers ::get
      */
-    public function testHasEmptyKey()
+    public function testGet(): void
+    {
+        $this->assertEquals(1, $this->registry->get('a'));
+        $this->assertEquals(["1" => "a"], $this->registry->get('c'));
+
+        // test default value
+        $this->assertEquals('abc', $this->registry->get('na-key', 'abc'));
+    }
+
+    /**
+     * @covers ::getByClassname
+     * @covers ::isValidClassname
+     */
+    public function testGetByClassnameInvalidKey():void
+    {
+        $this->registry->set('some-key', new \RuntimeException());
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->registry->getByClassname('not-a-class-name');
+    }
+
+    /**
+     * @covers ::getByClassname
+     */
+    public function testGetByClassnameNoObject(): void
+    {
+        $this->assertNull(
+            $this->registry->getByClassname(\RuntimeException::class)
+        );
+    }
+
+    /**
+     * @covers ::getByClassname
+     */
+    public function testGetByClassnameStrict(): void
+    {
+        $this->registry->set('exception', new \RuntimeException());
+
+        $this->assertInstanceOf(
+            \RuntimeException::class,
+            $this->registry->getByClassname(\RuntimeException::class, true)
+        );
+    }
+
+    /**
+     * @covers ::getByClassname
+     */
+    public function testGetByClassnameContract(): void
+    {
+        $this->registry->set('exception', new \RuntimeException());
+
+        $this->assertInstanceOf(
+            \RuntimeException::class,
+            $this->registry->getByClassname(\Throwable::class, false)
+        );
+    }
+
+    /**
+     * @covers ::has
+     */
+    public function testHasEmptyKey(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->registry->has('');
     }
 
     /**
-     * @covers \HalimonAlexander\Registry\Registry::set()
+     * @covers ::has
      */
-    public function testSetEmptyKey()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->registry->set('', 123);
-    }
-
-    /**
-     * @covers \HalimonAlexander\Registry\Registry::get()
-     */
-    public function testGet()
-    {
-        $this->assertEquals(1, $this->registry->get('a'));
-        $this->assertEquals(["1" => "a"], $this->registry->get('c'));
-        $this->assertEquals('abc', $this->registry->get('na-key', 'abc'));
-    }
-
-    /**
-     * @covers \HalimonAlexander\Registry\Registry::getByClassname()
-     */
-    public function testGetByClassname()
-    {
-        $this->assertNull($this->registry->getByClassname('RuntimeException'));
-
-        $this->registry->set('error', new \RuntimeException());
-        $this->assertInstanceOf(\RuntimeException::class, $this->registry->getByClassname('RuntimeException'));
-    }
-
-    /**
-     * @covers \HalimonAlexander\Registry\Registry::has()
-     */
-    public function testHas()
+    public function testHas(): void
     {
         $this->assertTrue($this->registry->has('a'));
         $this->assertTrue($this->registry->has('b'));
@@ -88,16 +133,37 @@ class RegistryTest extends TestCase
     }
 
     /**
-     * @covers \HalimonAlexander\Registry\Registry::set()
+     * @covers ::set
      */
-    public function testSet()
+    public function testSetEmptyKey(): void
     {
-        $this->assertFalse($this->registry->has("abcd"));
-        $this->assertNull($this->registry->get("abcd"));
+        $this->expectException(\InvalidArgumentException::class);
+        $this->registry->set('', 123);
+    }
 
+    /**
+     * @covers ::set
+     */
+    public function testSet(): void
+    {
         $this->registry->set('abcd', 1234);
 
         $this->assertTrue($this->registry->has('abcd'));
         $this->assertEquals(1234, $this->registry->get('abcd'));
+    }
+
+    /**
+     * @covers ::setContainer
+     */
+    public function testSetContainer(): void
+    {
+        $this->registry->setContainer([
+            "aa" => 1,
+            "bb" => 2,
+        ]);
+
+        $this->assertFalse($this->registry->has('a'));
+        $this->assertTrue($this->registry->has('aa'));
+        $this->assertEquals(1, $this->registry->get('aa'));
     }
 }
