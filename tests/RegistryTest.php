@@ -23,7 +23,7 @@ class RegistryTest extends TestCase
                 ->set('c', ["1" => "a"]);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->registry->setContainer([]);
     }
@@ -68,7 +68,7 @@ class RegistryTest extends TestCase
      * @covers ::getByClassname
      * @covers ::isValidClassname
      */
-    public function testGetByClassnameInvalidKey():void
+    public function testGetByClassnameInvalidKey(): void
     {
         $this->registry->set('some-key', new \RuntimeException());
 
