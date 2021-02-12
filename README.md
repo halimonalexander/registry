@@ -2,6 +2,7 @@
 
 Registry library
 
+![main branch parameter](https://github.com/halimonalexander/registry/workflows/php/badge.svg)
 ## Example of Usage
 
 ```php
