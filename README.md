@@ -1,9 +1,15 @@
-# HalimonAlexander\Registry
+# Registry
 
-Registry library
+Registry pattern library
 
 ![main branch parameter](https://github.com/halimonalexander/registry/workflows/php/badge.svg)
-## Example of Usage
+
+## Install
+```bash
+$ composer require halimonalexander/registry
+```
+
+## Example of usage
 
 ```php
 use HalimonAlexander\Registry\Registry;
